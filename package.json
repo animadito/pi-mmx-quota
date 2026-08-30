@@ -1,0 +1,35 @@
+{
+  "name": "@animadito/pi-mmx-quota",
+  "version": "0.1.0",
+  "description": "MMX Token Plan quota display for Pi",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "extension",
+    "mmx",
+    "minimax",
+    "quota",
+    "usage"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/animadito/pi-mmx-quota"
+  },
+  "homepage": "https://github.com/animadito/pi-mmx-quota",
+  "bugs": {
+    "url": "https://github.com/animadito/pi-mmx-quota/issues"
+  },
+  "engines": {
+    "pi": ">=0.84.0",
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": ["./extensions"]
+  }
+}
