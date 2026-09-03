@@ -444,7 +444,6 @@ export default function (pi: ExtensionAPI) {
       clearInterval(interval);
       interval = null;
     }
-    extensionCtx.ui.setStatus(STATUS_KEY, null);
     ctx = null;
   });
 }
