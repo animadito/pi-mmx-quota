@@ -280,7 +280,7 @@ export default function (pi: ExtensionAPI) {
     const theme = ctx.ui.theme;
 
     if (!quota) {
-      ctx.ui.setStatus(STATUS_KEY, theme.fg("muted", "MMX: unavailable"));
+      ctx.ui.setStatus(STATUS_KEY, theme.fg("dim", "MMX: unavailable"));
       return;
     }
 
@@ -322,7 +322,7 @@ export default function (pi: ExtensionAPI) {
     }
 
     const statusText = parts.length > 0 ? `MMX: ${parts.join(" | ")}` : "MMX: hidden";
-    ctx.ui.setStatus(STATUS_KEY, theme.fg("muted", statusText));
+    ctx.ui.setStatus(STATUS_KEY, theme.fg("dim", statusText));
   }
 
   // Helper to show settings panel for a specific mode
