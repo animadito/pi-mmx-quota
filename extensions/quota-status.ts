@@ -195,19 +195,19 @@ function buildGeneralItems(config: Config): SettingItem[] {
   return [
     {
       id: "showDailyPercent",
-      label: "Daily %",
+      label: "Q (quota percent)",
       currentValue: config.showDailyPercent ? "on" : "off",
       values: ["on", "off"],
     },
     {
       id: "showDailyTime",
-      label: "Daily time left",
+      label: "R: (reset time)",
       currentValue: config.showDailyTime ? "on" : "off",
       values: ["on", "off"],
     },
     {
       id: "showDailyUsage",
-      label: "Daily usage (used/total)",
+      label: "R: (reset usage)",
       currentValue: config.showDailyUsage ? "on" : "off",
       values: ["on", "off"],
     },
@@ -286,15 +286,15 @@ export default function (pi: ExtensionAPI) {
 
     const parts: string[] = [];
 
-    // Daily fields (from general model)
+    // General quota fields
     if (quota.general) {
-      if (config.showDailyPercent) parts.push(`D${quota.general.intervalPercent}%`);
-      if (config.showDailyTime) parts.push(`D${formatDuration(quota.general.remainsTime)}`);
+      if (config.showDailyPercent) parts.push(`Q ${quota.general.intervalPercent}%`);
+      if (config.showDailyTime) parts.push(`R: ${formatDuration(quota.general.remainsTime)}`);
       if (config.showDailyUsage) {
         if (quota.general.intervalTotal > 0) {
-          parts.push(`D${quota.general.intervalUsage}/${quota.general.intervalTotal}`);
+          parts.push(`R: ${quota.general.intervalUsage}/${quota.general.intervalTotal}`);
         } else {
-          parts.push(`D∞`);
+          parts.push(`R: ∞`);
         }
       }
       if (config.showWeeklyPercent) parts.push(`W${quota.general.weeklyPercent}%`);
@@ -420,6 +420,15 @@ export default function (pi: ExtensionAPI) {
     }
   }
 
+  // Register command to force refresh quota
+  pi.registerCommand("mmx-quota-refresh", {
+    description: "Force refresh MMX quota",
+    handler: async (_args, extensionCtx) => {
+      ctx = extensionCtx;
+      await updateStatus();
+    },
+  });
+
   // Register command to open settings TUI
   pi.registerCommand("mmx-quota", {
     description: "Open MMX quota settings",
@@ -444,6 +453,8 @@ export default function (pi: ExtensionAPI) {
       clearInterval(interval);
       interval = null;
     }
+    // Note: Don't call setStatus with null - pi's sanitizeStatusText crashes on null
+    // Session is ending anyway, status will be cleared
     ctx = null;
   });
 }
